@@ -55,7 +55,7 @@ This system might over-prioritize genre and mood, which could hide great songs t
 
 ### CLI Verification
 
-The following terminal capture shows the default `pop` / `happy` profile producing ranked recommendations with scores and reasons:
+The recommender was run from the terminal with multiple stress-test profiles so I could compare how the scoring logic behaved across different user tastes and conflicting preferences.
 
 ```text
 Loaded songs: 10
@@ -96,6 +96,20 @@ Top recommendations:
    - energy close to target (+1.33)
    - less acoustic preference (-0.05)
 ```
+
+### Stress Test Screenshots
+
+The screenshots below show the terminal output captured after running the recommender with the different profiles.
+
+![Screenshot 1](screenshots/Screenshot%202026-04-14%20232619.png)
+
+![Screenshot 2](screenshots/Screenshot%202026-04-14%20232624.png)
+
+![Screenshot 3](screenshots/Screenshot%202026-04-14%20232628.png)
+
+![Screenshot 4](screenshots/Screenshot%202026-04-14%20232631.png)
+
+![Screenshot 5](screenshots/Screenshot%202026-04-14%20232636.png)
 
 ---
 
@@ -141,6 +155,8 @@ Use this section to document the experiments you ran. For example:
 - What happened when you changed the weight on genre from 2.0 to 0.5
 - What happened when you added tempo or valence to the score
 - How did your system behave for different types of users
+
+Weight shift experiment: I doubled the importance of energy and cut the genre bonus in half. The recommendations became more energy-driven, which moved several high-energy songs upward even when genre was not a strong match. For the small catalog in this project, the change made the lists look more different than more accurate, because the same high-energy songs still dominated several profiles.
 
 ---
 
