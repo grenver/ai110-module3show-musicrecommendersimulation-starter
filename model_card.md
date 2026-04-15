@@ -63,12 +63,7 @@ Prompts:
 
 Where the system struggles or behaves unfairly. 
 
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
+The system over-prioritizes the small set of signals it does use, especially energy, so songs with a similar energy level can outrank songs that are a better genre or mood match. Because the catalog only has 10 songs and some styles appear more than once, the recommender can repeat the same artists or genres across different profiles instead of showing much variety. It also ignores important parts of musical taste like lyrics, instrumentation, and context, so it may miss what a real listener would actually want. Users whose preferences do not fit the dataset, such as niche genres or unusual combinations of mood and energy, are likely to get weaker results. In practice, that means the system can create a mild filter bubble around the songs that best match the most common patterns in the tiny dataset.
 
 ---
 
@@ -76,14 +71,7 @@ Prompts:
 
 How you checked whether the recommender behaved as expected. 
 
-Prompts:  
-
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
-
-No need for numeric metrics unless you created some.
+I tested four profiles: High-Energy Pop, Chill Lofi, Deep Intense Rock, and an Adversarial Conflicted profile with a fake genre and mixed signals. I looked at whether the top songs matched the mood of each profile and whether the same songs kept repeating across different users. The clearest result was that the high-energy songs kept rising to the top, even when genre and mood did not match very well. That surprised me because it showed the energy score was stronger than I expected for a tiny catalog. The Chill Lofi profile made the most sense, while the adversarial profile showed that the system can still be pulled toward similar high-energy songs even when the rest of the profile is conflicting.
 
 ---
 
