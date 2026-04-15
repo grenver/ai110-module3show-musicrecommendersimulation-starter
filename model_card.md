@@ -2,76 +2,55 @@
 
 ## 1. Model Name  
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+Retro Resonance 1.0
 
 ---
 
 ## 2. Intended Use  
 
-Describe what your recommender is designed to do and who it is for. 
+This recommender suggests a small set of songs from a classroom-sized catalog based on a user's preferred genre, mood, energy, and a few optional taste signals. It is designed for classroom exploration only, not for real users.
 
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+The system assumes a user can describe taste with simple labels and a handful of numeric preferences. That makes it useful for showing how ranking works, but it also means it cannot represent the full complexity of real music taste.
 
 ---
 
 ## 3. How the Model Works  
 
-Explain your scoring approach in simple language.  
+The model starts with genre, mood, and energy. Genre and mood add direct match bonuses, while energy adds a smooth similarity score so songs closer to the target feel rank higher. It then layers on extra signals from the dataset: popularity, release decade, mood tags, aggressiveness, synthiness, and nostalgia score.
 
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The user can also provide optional preferences such as a preferred decade, a more specific mood tag, a target popularity range, target aggressiveness, and whether they like synth-heavy or nostalgic songs. The final score is the sum of these little signals, and the explanation text lists the reasons the song moved up. Compared with the starter version, this adds more nuanced attributes and makes the Retro Nostalgia profile possible.
 
 ---
 
 ## 4. Data  
 
-Describe the dataset the model uses.  
+The catalog contains 10 songs in `data/songs.csv`. It includes pop, lofi, rock, ambient, jazz, synthwave, and indie pop, with moods such as happy, chill, intense, relaxed, moody, and focused.
 
-Prompts:  
+Each row includes more than the starter features: `genre`, `mood`, `energy`, `tempo_bpm`, `valence`, `danceability`, and `acousticness`, plus `popularity`, `release_decade`, `mood_tag`, `aggressiveness`, `synthiness`, and `nostalgia_score`. Those added fields make it possible to run more specific experiments, including the Retro Nostalgia test profile.
 
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+The data still leaves out a lot of real musical taste, especially lyrics, context, and cultural meaning. The dataset also reflects the small hand-built catalog rather than broad listener behavior.
 
 ---
 
 ## 5. Strengths  
 
-Where does your system seem to work well  
+The system works well when the user profile is clear and the target song traits are represented in the catalog. The scoring is transparent, so it is easy to see why a song ranked highly, and the extra attributes make it better at separating similar songs than a genre-only recommender would be.
 
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+The Retro Nostalgia experiment is a strength because it shows the system can use the newer fields in a meaningful way instead of treating every song as just genre plus energy.
 
 ---
 
 ## 6. Limitations and Bias 
 
-Where the system struggles or behaves unfairly. 
-
-The system over-prioritizes the small set of signals it does use, especially energy, so songs with a similar energy level can outrank songs that are a better genre or mood match. Because the catalog only has 10 songs and some styles appear more than once, the recommender can repeat the same artists or genres across different profiles instead of showing much variety. It also ignores important parts of musical taste like lyrics, instrumentation, and context, so it may miss what a real listener would actually want. Users whose preferences do not fit the dataset, such as niche genres or unusual combinations of mood and energy, are likely to get weaker results. In practice, that means the system can create a mild filter bubble around the songs that best match the most common patterns in the tiny dataset.
+The system still over-prioritizes the small set of signals it does use, especially energy, so songs with a similar energy level can outrank songs that are a better genre or mood match. Because the catalog only has 10 songs and some styles appear more than once, the recommender can repeat the same artists or genres across different profiles instead of showing much variety. It also ignores important parts of musical taste like lyrics, instrumentation, and context, so it may miss what a real listener would actually want. Users whose preferences do not fit the dataset, such as niche genres or unusual combinations of mood and energy, are likely to get weaker results. In practice, that means the system can create a mild filter bubble around the songs that best match the most common patterns in the tiny dataset.
 
 ---
 
 ## 7. Evaluation  
 
-How you checked whether the recommender behaved as expected. 
+I tested five profiles: High-Energy Pop, Chill Lofi, Deep Intense Rock, Adversarial Conflicted, and Retro Nostalgia. I looked at whether the top songs matched the mood of each profile and whether the same songs kept repeating across different users. The clearest result was that the high-energy songs kept rising to the top, even when genre and mood did not match very well. That surprised me because it showed the energy score was stronger than I expected for a tiny catalog.
 
-I tested four profiles: High-Energy Pop, Chill Lofi, Deep Intense Rock, and an Adversarial Conflicted profile with a fake genre and mixed signals. I looked at whether the top songs matched the mood of each profile and whether the same songs kept repeating across different users. The clearest result was that the high-energy songs kept rising to the top, even when genre and mood did not match very well. That surprised me because it showed the energy score was stronger than I expected for a tiny catalog. The Chill Lofi profile made the most sense, while the adversarial profile showed that the system can still be pulled toward similar high-energy songs even when the rest of the profile is conflicting.
+The Retro Nostalgia profile was the main check for the new attributes. It made it easy to see whether the recommender could respond to decade, mood tag, synthiness, and nostalgia instead of relying only on the basic profile fields. The Chill Lofi profile made the most sense, while the adversarial profile showed that the system can still be pulled toward similar high-energy songs even when the rest of the profile is conflicting.
 
 ---
 
